@@ -5,7 +5,7 @@ userController = {
     register: async function register(req, res) {
 
         const validateEmail = await User.findOne({ email: req.body.email });
-        if (validateEmail) return res.status(400).send('E-mail exist');
+        if (validateEmail) return res.status(400).send('Email exist');
 
         const user = new User({
             name: req.body.name,
@@ -20,9 +20,15 @@ userController = {
             res.status(400).send(error);
         }
     },
-    login: function (req, res) {
-        console.log('login')
-        res.send('login')
+    login: async function (req, res) {
+        const selectedUser = await User.findOne({ email: req.body.email });
+        if (!selectedUser) return res.status(400).send('Email or Password incorrect');
+
+        const userMath = bcrypt.compareSync(req.body.password, selectedUser.password);
+
+        if (!userMath) return res.status(400).send('Email or Password incorrect');
+
+        res.send("User Logger");
     },
 }
 
