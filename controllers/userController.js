@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 userController = {
     register: async function register(req, res) {
@@ -28,6 +29,11 @@ userController = {
 
         if (!userMath) return res.status(400).send('Email or Password incorrect');
 
+        const token = jwt.sign({_id:selectedUser._id},process.env.TOKEN_SECRET);
+
+        res.header('authorization-token',token);
+
+        
         res.send("User Logger");
     },
 }
