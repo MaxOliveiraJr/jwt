@@ -6,15 +6,15 @@ const mongoose = require('mongoose');
 
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGO_CONNECTION_URL, (error) => {
-    if(error){
+    if (error) {
         console.log(error)
-    }else{
+    } else {
         console.log("Mongo Connected")
     }
 });
 
 
-app.use('/user', userRouter);
+app.use('/user', express.json(), userRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server running")
