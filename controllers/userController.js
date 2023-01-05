@@ -29,11 +29,10 @@ userController = {
 
         if (!userMath) return res.status(400).send('Email or Password incorrect');
 
-        const token = jwt.sign({_id:selectedUser._id},process.env.TOKEN_SECRET);
+        const token = jwt.sign({ _id: selectedUser._id, admin: selectedUser.admin }, process.env.TOKEN_SECRET);
 
-        res.header('authorization-token',token);
+        res.header('authorization-token', token);
 
-        
         res.send("User Logger");
     },
 }
